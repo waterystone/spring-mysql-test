@@ -112,11 +112,14 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
 
+		<!-- DataSource依赖此jar包 -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
+
+		<!-- mysql驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
