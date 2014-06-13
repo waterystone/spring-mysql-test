@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byType">
+
+	<context:component-scan base-package="com.adu.spring_test"></context:component-scan>
+
+	<!-- 加载配置 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:service.properties</value>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" lazy-init="false">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		
+		
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<property name="minIdle" value="${dataSource.minIdle}" />
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="maxActive" value="${dataSource.maxActive}" />
+
+		<property name="logAbandoned" value="${dataSource.logAbandoned}" />
+		<property name="removeAbandoned" value="${dataSource.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${dataSource.removeAbandonedTimeout}" />
+		<property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements}" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="userDAO" class="com.adu.spring_test.dao.impl.UserDAOImpl">
+	</bean>
+
+</beans>
