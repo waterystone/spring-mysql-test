@@ -45,7 +45,7 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="userDAO" class="com.adu.spring_test.dao.impl.UserDAOImpl">
+	<bean id="userDao" class="com.adu.spring_test.dao.impl.UserDaoImpl">
 	</bean>
 
 </beans>

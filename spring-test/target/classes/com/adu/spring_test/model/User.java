@@ -1,6 +1,7 @@
 package com.adu.spring_test.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 
 public class User implements Serializable {
 
@@ -66,8 +67,11 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
 		return "User [id=" + id + ", name=" + name + ", age=" + age
-				+ ", isMale=" + isMale + ", insertTime=" + insertTime + "]";
+				+ ", isMale=" + isMale + ", insertTime="
+				+ simpleDateFormat.format(insertTime) + "]";
 	}
 
 }
