@@ -7,6 +7,7 @@
         http://www.springframework.org/schema/context/spring-context-3.0.xsd"
 	default-autowire="byType">
 
+	<!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
 	<context:component-scan base-package="com.adu.spring_test"></context:component-scan>
 
 	<!-- 加载配置 -->
@@ -46,9 +47,6 @@
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<bean id="userDao" class="com.adu.spring_test.dao.impl.UserDaoImpl">
 	</bean>
 
 </beans>

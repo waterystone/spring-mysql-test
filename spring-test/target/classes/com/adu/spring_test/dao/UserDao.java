@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import com.adu.spring_test.model.User;
 
+@Repository
 public interface UserDao {
 	/**
 	 * 根据id获取用户信息
