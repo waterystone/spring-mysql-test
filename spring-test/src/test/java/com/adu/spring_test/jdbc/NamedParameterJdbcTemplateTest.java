@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,4 +39,22 @@ public class NamedParameterJdbcTemplateTest {
 		logger.debug("res=" + res);
 
 	}
+
+	@Test
+	public void test1() {
+		final String sql = "select * from user where id = :id and age=:age";
+		final int id = 1;
+		final int age = 26;
+
+		NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(
+				jdbcTemplate);
+
+		MapSqlParameterSource paramSource = new MapSqlParameterSource("id", id)
+				.addValue("age", age);
+		Map<String, Object> res = namedParameterJdbcTemplate.queryForMap(sql,
+				paramSource);
+		logger.debug("res=" + res);
+
+	}
+
 }
