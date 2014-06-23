@@ -1,4 +1,4 @@
-package com.adu.spring_mysql_test.dao;
+package com.adu.spring_test.mysql.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.adu.spring_mysql_test.model.User;
+import com.adu.spring_test.mysql.dao.UserDao;
+import com.adu.spring_test.mysql.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")

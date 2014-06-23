@@ -1,4 +1,4 @@
-package com.adu.spring_mysql_test.jdbc;
+package com.adu.spring_test.mysql.jdbc;
 
 import java.util.HashMap;
 import java.util.Map;

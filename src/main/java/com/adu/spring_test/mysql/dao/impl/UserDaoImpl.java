@@ -1,4 +1,4 @@
-package com.adu.spring_mysql_test.dao.impl;
+package com.adu.spring_test.mysql.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,8 +16,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.adu.spring_mysql_test.dao.UserDao;
-import com.adu.spring_mysql_test.model.User;
+import com.adu.spring_test.mysql.dao.UserDao;
+import com.adu.spring_test.mysql.model.User;
 
 @Repository
 public class UserDaoImpl implements UserDao {

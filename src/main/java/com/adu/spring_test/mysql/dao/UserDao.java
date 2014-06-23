@@ -1,4 +1,4 @@
-package com.adu.spring_mysql_test.dao;
+package com.adu.spring_test.mysql.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.adu.spring_mysql_test.model.User;
+import com.adu.spring_test.mysql.model.User;
 
 @Repository
 public interface UserDao {

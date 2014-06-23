@@ -1,4 +1,4 @@
-package com.adu.spring_mysql_test.model;
+package com.adu.spring_test.mysql.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
