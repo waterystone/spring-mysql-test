@@ -104,7 +104,7 @@ public class UserDaoTest {
 
 	@Test
 	public void addUser() {
-		User user = new User("test", 20, true);
+		User user = new User("012345678901234567890", 20, true);
 		int res = userDao.addUser(user);
 		logger.debug("res=" + res);
 

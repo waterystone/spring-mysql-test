@@ -240,10 +240,16 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public int addUser(User user) {
+		int ret = 0;
 		final String sql = "INSERT INTO user (name,age,sex) VALUES (?,?,?)";
-		final Object[] args = new Object[] { user.getName(), user.getAge(),
-				user.isMale() };
-		return this.jdbcTemplate.update(sql, args);
+		try {
+			final Object[] args = new Object[] { user.getName(), user.getAge(),
+					user.isMale() };
+			ret = this.jdbcTemplate.update(sql, args);
+		} catch (Exception e) {
+			logger.error("[ERROR-addUser]user=" + user, e);
+		}
+		return ret;
 	}
 
 	public int updateUser(User user) {
