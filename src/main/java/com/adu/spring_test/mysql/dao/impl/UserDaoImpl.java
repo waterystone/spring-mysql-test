@@ -252,6 +252,41 @@ public class UserDaoImpl implements UserDao {
 		return ret;
 	}
 
+	public void addUsers(final List<User> users) {
+		if (users == null || users.size() == 0) {
+			return;
+		}
+
+		try {
+			// SQL语句模板
+			String format = "INSERT IGNORE INTO user (name, age, sex) VALUES %s";
+
+			int index = 0;
+			final int MAX_LIMIT = 1000;
+
+			// 分批次写
+			while (index < users.size()) {
+				StringBuffer values = new StringBuffer();
+				for (int i = index; i < index + MAX_LIMIT && i < users.size(); i++) {
+					User user = users.get(i);
+					// 转换成字符串批量插入
+					values.append(String.format("('%s', %d, %d),",
+							user.getName(), user.getAge(), user.isMale()));
+				}
+
+				// 去掉末尾的逗号
+				values.setLength(values.length() - 1);
+
+				String updateSql = String.format(format, values);
+
+				this.jdbcTemplate.update(updateSql);
+				index += MAX_LIMIT;
+			}
+		} catch (Exception e) {
+			logger.error("[ERROR-addUsers]");
+		}
+	}
+
 	public int updateUser(User user) {
 		final String sql = "UPDATE user SET name = ?, age=?, sex=? WHERE id = ?";
 		final Object[] args = new Object[] { user.getName(), user.getAge(),
