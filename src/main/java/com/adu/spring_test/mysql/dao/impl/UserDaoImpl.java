@@ -105,14 +105,11 @@ public class UserDaoImpl implements UserDao {
 
 		int index = 0;// index表示每批次的起始索引
 		while (index < ids.size()) {
-			// 将所有id拼接在一起，方便数据库批量查询
-			StringBuffer idsSQL = new StringBuffer();
-			for (int i = index; i < index + LIMIT && i < ids.size(); i++) {
-				idsSQL.append(ids.get(i) + ",");
-			}
-			// 去掉最后的那个逗号
-			idsSQL.setLength(idsSQL.length() - 1);
-			final String querySQL = String.format(formatSQL, idsSQL.toString());
+			StringBuffer idsBuffer = new StringBuffer();
+			index = getIdsFrom(ids, index, LIMIT, idsBuffer);
+
+			final String querySQL = String.format(formatSQL,
+					idsBuffer.toString());
 
 			List<Map<String, Object>> rows = this.jdbcTemplate
 					.queryForList(querySQL);
@@ -124,10 +121,7 @@ public class UserDaoImpl implements UserDao {
 				res.put(id, name);
 			}
 
-			logger.debug("select count:"
-					+ (index + LIMIT > ids.size() ? index + ids.size() : index
-							+ LIMIT) + "/" + ids.size());
-			index += LIMIT;
+			logger.debug("select count:" + index + "/" + ids.size());
 		}
 		return res;
 	}
@@ -144,14 +138,11 @@ public class UserDaoImpl implements UserDao {
 
 		int index = 0;// index表示每批次的起始索引
 		while (index < ids.size()) {
-			// 将所有id拼接在一起，方便数据库批量查询
-			StringBuffer idsSQL = new StringBuffer();
-			for (int i = index; i < index + LIMIT && i < ids.size(); i++) {
-				idsSQL.append(ids.get(i) + ",");
-			}
-			// 去掉最后的那个逗号
-			idsSQL.setLength(idsSQL.length() - 1);
-			final String querySQL = String.format(formatSQL, idsSQL.toString());
+			StringBuffer idsBuffer = new StringBuffer();
+			index = getIdsFrom(ids, index, LIMIT, idsBuffer);
+
+			final String querySQL = String.format(formatSQL,
+					idsBuffer.toString());
 
 			List<Map<String, Object>> rows = this.jdbcTemplate
 					.queryForList(querySQL);
@@ -171,10 +162,7 @@ public class UserDaoImpl implements UserDao {
 				res.put(id, fields);
 			}
 
-			logger.debug("select count:"
-					+ (index + LIMIT > ids.size() ? index + ids.size() : index
-							+ LIMIT) + "/" + ids.size());
-			index += LIMIT;
+			logger.debug("select count:" + index + "/" + ids.size());
 		}
 		return res;
 	}
@@ -191,14 +179,11 @@ public class UserDaoImpl implements UserDao {
 
 		int index = 0;// index表示每批次的起始索引
 		while (index < ids.size()) {
-			// 将所有id拼接在一起，方便数据库批量查询
-			StringBuffer idsSQL = new StringBuffer();
-			for (int i = index; i < index + LIMIT && i < ids.size(); i++) {
-				idsSQL.append(ids.get(i) + ",");
-			}
-			// 去掉最后的那个逗号
-			idsSQL.setLength(idsSQL.length() - 1);
-			final String querySQL = String.format(formatSQL, idsSQL.toString());
+			StringBuffer idsBuffer = new StringBuffer();
+			index = getIdsFrom(ids, index, LIMIT, idsBuffer);
+
+			final String querySQL = String.format(formatSQL,
+					idsBuffer.toString());
 
 			List<User> users = this.jdbcTemplate.query(querySQL,
 					new UserRowMapper());
@@ -206,9 +191,7 @@ public class UserDaoImpl implements UserDao {
 				res.put(user.getId(), user);
 			}
 
-			logger.debug("select count:"
-					+ (index + LIMIT > ids.size() ? index + ids.size() : index
-							+ LIMIT) + "/" + ids.size());
+			logger.debug("select count:" + index + "/" + ids.size());
 			index += LIMIT;
 		}
 		return res;
@@ -298,6 +281,35 @@ public class UserDaoImpl implements UserDao {
 		final String sql = "DELETE FROM user WHERE id = ?";
 		final Object[] args = new Object[] { id };
 		return this.jdbcTemplate.update(sql, args);
+	}
+
+	/**
+	 * 截取子集，以便批量查询而又不至于超出MYSQL的限制。
+	 * 
+	 * @param list
+	 *            全集
+	 * @param index
+	 *            开始下标
+	 * @param limit
+	 *            个数
+	 * @param idsBuffer
+	 *            结果子集
+	 * @return 下一个id的下标，子集写入buffer里。
+	 */
+	private <T> int getIdsFrom(List<T> list, int index, int limit,
+			StringBuffer idsBuffer) {
+		int res = index;
+		if (index >= list.size()) {
+			return res;
+		}
+		// 将所有id拼接在一起，方便数据库批量查询
+		for (int i = index; i < index + limit && i < list.size(); i++) {
+			idsBuffer.append(list.get(i) + ",");
+			res++;
+		}
+		// 去掉最后的那个逗号
+		idsBuffer.setLength(idsBuffer.length() - 1);
+		return res;
 	}
 
 	private final class UserRowMapper implements RowMapper<User> {
